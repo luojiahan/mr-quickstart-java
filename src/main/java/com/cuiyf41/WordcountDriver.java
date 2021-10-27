@@ -45,7 +45,6 @@ public class WordcountDriver {
         job.setOutputValueClass(IntWritable.class);
 
         // 6 设置输入和输出路径
-        // 5 设置输入和输出路径
         Path input = new Path(args[0]);
         Path output = new Path(args[1]);
         // 如果输出路径存在，则进行删除

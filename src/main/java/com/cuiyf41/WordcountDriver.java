@@ -1,6 +1,7 @@
 package com.cuiyf41;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -44,8 +45,16 @@ public class WordcountDriver {
         job.setOutputValueClass(IntWritable.class);
 
         // 6 设置输入和输出路径
-        FileInputFormat.setInputPaths(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        // 5 设置输入和输出路径
+        Path input = new Path(args[0]);
+        Path output = new Path(args[1]);
+        // 如果输出路径存在，则进行删除
+        FileSystem fs = FileSystem.get(conf);
+        if (fs.exists(output)) {
+            fs.delete(output,true);
+        }
+        FileInputFormat.setInputPaths(job, input);
+        FileOutputFormat.setOutputPath(job, output);
 
         // 7 提交
         boolean result = job.waitForCompletion(true);
